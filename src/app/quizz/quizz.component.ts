@@ -43,17 +43,35 @@ export class QuizzComponent implements OnInit {
   //Faz com que os valores das respostas sejam adicionados em um vetor answers
   playerChoose(value:string){
     this.answers.push(value);
+    this.nextStep();
   }
 
   //Pular pergunta
-  async nextStep(){
+  nextStep(){
     this.questionIndex+=1;
 
     if(this.questionMaxIndex > this.questionIndex){
       this.questionSelected = this.questions[this.questionIndex];
     }else{
       this.finished = true;
+      //verificar opção ganhadora 
     }
+  }
+
+  //verificar quem ganhou
+  async checkResult(anwsers:string[]){
+    const result = anwsers.reduce((previous, current,i,arr)=>{
+      if(arr.filter(item => item === previous).length>
+      arr.filter(item => item === current).length
+      ){
+        return previous;
+      }
+      else{
+        return current;
+      }
+    })
+
+    return result;
   }
 
 }
